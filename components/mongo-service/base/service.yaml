@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: mongo-service
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: mongo-service
+    app.kubernetes.io/part-of: mongo-db-example
+  name: mongo-service
+  namespace: mongo-db-example
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  selector:
+    app.kubernetes.io/instance: mongo-service
+status:
+  loadBalancer: {}

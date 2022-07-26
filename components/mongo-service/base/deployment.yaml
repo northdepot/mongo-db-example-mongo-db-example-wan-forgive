@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: mongo-service
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: mongo-service
+    app.kubernetes.io/part-of: mongo-db-example
+  name: mongo-service
+  namespace: mongo-db-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mongo-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: mongo-service
+    spec:
+      containers:
+      - image: docker.io/library/mongo
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 27017
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 27017
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 27017
+        resources:
+          requests:
+            cpu: 125m
+            memory: 512Mi
+status: {}
